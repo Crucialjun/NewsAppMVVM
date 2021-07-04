@@ -1,11 +1,14 @@
 package com.androiddevs.mvvmnewsapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.androiddevs.mvvmnewsapp.R
 import com.androiddevs.mvvmnewsapp.databinding.ActivityNewsBinding
+
 
 class NewsActivity : AppCompatActivity() {
 
@@ -16,10 +19,15 @@ class NewsActivity : AppCompatActivity() {
         binding = ActivityNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bottomNavigationView = binding.bottomNavigationView
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.newsNavHostFragment) as NavHostFragment?
+        NavigationUI.setupWithNavController(
+            bottomNavigationView,
+            navHostFragment!!.navController
+        )
 
-        binding
-            .bottomNavigationView
-            .setupWithNavController(binding.newsNavHostFragment.findNavController())
+
 
     }
 }
