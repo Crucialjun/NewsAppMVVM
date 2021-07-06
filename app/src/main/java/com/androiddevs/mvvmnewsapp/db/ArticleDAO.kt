@@ -1,6 +1,6 @@
 package com.androiddevs.mvvmnewsapp.db
 
-import Article
+import com.androiddevs.mvvmnewsapp.models.Article
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
