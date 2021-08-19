@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androiddevs.mvvmnewsapp.OnItemClickListener
 import com.androiddevs.mvvmnewsapp.R
 import com.androiddevs.mvvmnewsapp.adapters.NewsAdapter
+import com.androiddevs.mvvmnewsapp.models.Article
 import com.androiddevs.mvvmnewsapp.ui.NewsActivity
 import com.androiddevs.mvvmnewsapp.ui.NewsViewModel
 import com.androiddevs.mvvmnewsapp.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
@@ -34,13 +36,6 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
 
         setupRecyclerView()
 
-        newsAdapter.setOnItemClickListener {
-            val bundle = Bundle().apply {
-                putSerializable("article",it)
-            }
-
-            findNavController().navigate(R.id.action_searchNewsFragment_to_articleFragment,bundle)
-        }
 
         var job : Job? = null
 
@@ -89,7 +84,16 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
     }
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(object : OnItemClickListener{
+            override fun onItemClick(article: Article) {
+                val bundle = Bundle().apply {
+                    putSerializable("article",article)
+                }
+
+                findNavController().navigate(R.id.action_searchNewsFragment_to_articleFragment,bundle)
+            }
+
+        })
         rvSearchNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)

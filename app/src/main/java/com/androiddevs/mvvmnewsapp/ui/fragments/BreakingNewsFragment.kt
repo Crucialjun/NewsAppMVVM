@@ -3,12 +3,15 @@ package com.androiddevs.mvvmnewsapp.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androiddevs.mvvmnewsapp.OnItemClickListener
 import com.androiddevs.mvvmnewsapp.R
 import com.androiddevs.mvvmnewsapp.adapters.NewsAdapter
+import com.androiddevs.mvvmnewsapp.models.Article
 import com.androiddevs.mvvmnewsapp.ui.NewsActivity
 import com.androiddevs.mvvmnewsapp.ui.NewsViewModel
 import com.androiddevs.mvvmnewsapp.util.Resource
@@ -32,6 +35,8 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
             val bundle = Bundle().apply {
                 putSerializable("article",it)
             }
+
+            Toast.makeText(requireContext(), "I have been clicked: Article :${it.title}", Toast.LENGTH_SHORT).show()
 
             findNavController().navigate(R.id.action_breakingNewsFragment_to_articleFragment,bundle)
         }
@@ -67,7 +72,18 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
     }
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(object : OnItemClickListener{
+            override fun onItemClick(article: Article) {
+                val bundle = Bundle().apply {
+                    putSerializable("article",article)
+                }
+
+                Toast.makeText(requireContext(), "I have been clicked: Article :${article.title}", Toast.LENGTH_SHORT).show()
+
+                findNavController().navigate(R.id.action_breakingNewsFragment_to_articleFragment,bundle)
+            }
+
+        })
         rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)

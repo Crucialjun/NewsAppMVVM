@@ -5,8 +5,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androiddevs.mvvmnewsapp.OnItemClickListener
 import com.androiddevs.mvvmnewsapp.R
 import com.androiddevs.mvvmnewsapp.adapters.NewsAdapter
+import com.androiddevs.mvvmnewsapp.models.Article
 import com.androiddevs.mvvmnewsapp.ui.NewsActivity
 import com.androiddevs.mvvmnewsapp.ui.NewsViewModel
 import kotlinx.android.synthetic.main.fragment_saved_news.*
@@ -25,17 +27,22 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
 
 
         newsAdapter.setOnItemClickListener {
-            val bundle = Bundle().apply {
-                putSerializable("article",it)
-            }
 
-            findNavController().navigate(R.id.action_savedNewsFragment_to_articleFragment,bundle)
         }
     }
 
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(object : OnItemClickListener{
+            override fun onItemClick(article: Article) {
+                val bundle = Bundle().apply {
+                    putSerializable("article",article)
+                }
+
+                findNavController().navigate(R.id.action_savedNewsFragment_to_articleFragment,bundle)
+            }
+
+        })
         rvSavedNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
