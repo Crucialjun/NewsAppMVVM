@@ -78,7 +78,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                     putSerializable("article",article)
                 }
 
-                Toast.makeText(requireContext(), "I have been clicked: Article :${article.title}", Toast.LENGTH_SHORT).show()
+
 
                 findNavController().navigate(R.id.action_breakingNewsFragment_to_articleFragment,bundle)
             }

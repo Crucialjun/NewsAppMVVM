@@ -3,6 +3,7 @@ package com.androiddevs.mvvmnewsapp.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -35,6 +36,10 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
         viewModel = (activity as NewsActivity).viewModel
 
         setupRecyclerView()
+
+        newsAdapter.setOnItemClickListener {
+
+        }
 
 
         var job : Job? = null
@@ -89,6 +94,8 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
                 val bundle = Bundle().apply {
                     putSerializable("article",article)
                 }
+
+                Toast.makeText(requireContext(), "I have been clicked: Article :${article.title}", Toast.LENGTH_SHORT).show()
 
                 findNavController().navigate(R.id.action_searchNewsFragment_to_articleFragment,bundle)
             }
