@@ -29,7 +29,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
     var isLastPage = false
     var isScrolling = false
 
-    val TAG = "BreakingNewsFragment"
+    private val TAG = "BreakingNewsFragment"
 
 
 
@@ -94,16 +94,19 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {
-                        newsAdapter.differ.submitList(it.articles)
+                        newsAdapter.differ.submitList(it.articles.toList())
                         val totalPages = it.totalResults / QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.breakingNewsPage == totalPages
+                        if(isLastPage){
+                            rvBreakingNews.setPadding(0,0,0,0)
+                        }
                     }
                 }
 
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let {
-                        Log.e(TAG, "onViewCreated: An error occured: $it", )
+                        Log.e(TAG, "onViewCreated: An error occurred: $it", )
                     }
                 }
 
